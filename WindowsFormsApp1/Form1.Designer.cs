@@ -33,9 +33,14 @@
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.warning = new System.Windows.Forms.Label();
             this.getResult = new System.Windows.Forms.Button();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.resultFat = new System.Windows.Forms.Button();
+            this.hipsLabel = new System.Windows.Forms.Label();
+            this.hipsBox = new System.Windows.Forms.TextBox();
+            this.fat = new System.Windows.Forms.Label();
             this.neck = new System.Windows.Forms.TextBox();
             this.waist = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
@@ -62,6 +67,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.recLimitCal = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.indexMassText = new System.Windows.Forms.Label();
             this.IMTlabel = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -127,6 +133,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.warning);
             this.tabPage1.Controls.Add(this.getResult);
             this.tabPage1.Controls.Add(this.groupBox8);
             this.tabPage1.Controls.Add(this.groupBox7);
@@ -146,9 +153,20 @@
             this.tabPage1.UseVisualStyleBackColor = true;
             this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
             // 
+            // warning
+            // 
+            this.warning.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.warning.AutoSize = true;
+            this.warning.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.warning.ForeColor = System.Drawing.Color.Red;
+            this.warning.Location = new System.Drawing.Point(233, 306);
+            this.warning.Name = "warning";
+            this.warning.Size = new System.Drawing.Size(0, 15);
+            this.warning.TabIndex = 8;
+            // 
             // getResult
             // 
-            this.getResult.Location = new System.Drawing.Point(227, 277);
+            this.getResult.Location = new System.Drawing.Point(227, 266);
             this.getResult.Name = "getResult";
             this.getResult.Size = new System.Drawing.Size(200, 35);
             this.getResult.TabIndex = 7;
@@ -166,6 +184,10 @@
             // 
             // groupBox7
             // 
+            this.groupBox7.Controls.Add(this.resultFat);
+            this.groupBox7.Controls.Add(this.hipsLabel);
+            this.groupBox7.Controls.Add(this.hipsBox);
+            this.groupBox7.Controls.Add(this.fat);
             this.groupBox7.Controls.Add(this.neck);
             this.groupBox7.Controls.Add(this.waist);
             this.groupBox7.Controls.Add(this.label11);
@@ -178,16 +200,52 @@
             this.groupBox7.TabIndex = 5;
             this.groupBox7.TabStop = false;
             // 
+            // resultFat
+            // 
+            this.resultFat.Location = new System.Drawing.Point(24, 85);
+            this.resultFat.Name = "resultFat";
+            this.resultFat.Size = new System.Drawing.Size(151, 23);
+            this.resultFat.TabIndex = 7;
+            this.resultFat.Text = "Расчитать";
+            this.resultFat.UseVisualStyleBackColor = true;
+            this.resultFat.Click += new System.EventHandler(this.resultFat_Click);
+            // 
+            // hipsLabel
+            // 
+            this.hipsLabel.AutoSize = true;
+            this.hipsLabel.Location = new System.Drawing.Point(71, 41);
+            this.hipsLabel.Name = "hipsLabel";
+            this.hipsLabel.Size = new System.Drawing.Size(61, 13);
+            this.hipsLabel.TabIndex = 6;
+            this.hipsLabel.Text = "Бёдра (см)";
+            this.hipsLabel.Visible = false;
+            // 
+            // hipsBox
+            // 
+            this.hipsBox.Location = new System.Drawing.Point(80, 59);
+            this.hipsBox.Name = "hipsBox";
+            this.hipsBox.Size = new System.Drawing.Size(33, 20);
+            this.hipsBox.TabIndex = 5;
+            this.hipsBox.Visible = false;
+            // 
+            // fat
+            // 
+            this.fat.AutoSize = true;
+            this.fat.Location = new System.Drawing.Point(7, 131);
+            this.fat.Name = "fat";
+            this.fat.Size = new System.Drawing.Size(0, 13);
+            this.fat.TabIndex = 4;
+            // 
             // neck
             // 
-            this.neck.Location = new System.Drawing.Point(126, 62);
+            this.neck.Location = new System.Drawing.Point(142, 59);
             this.neck.Name = "neck";
             this.neck.Size = new System.Drawing.Size(33, 20);
             this.neck.TabIndex = 3;
             // 
             // waist
             // 
-            this.waist.Location = new System.Drawing.Point(35, 62);
+            this.waist.Location = new System.Drawing.Point(24, 59);
             this.waist.Name = "waist";
             this.waist.Size = new System.Drawing.Size(33, 20);
             this.waist.TabIndex = 3;
@@ -196,7 +254,7 @@
             // 
             this.label11.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(115, 44);
+            this.label11.Location = new System.Drawing.Point(134, 41);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(51, 13);
             this.label11.TabIndex = 2;
@@ -207,7 +265,8 @@
             // 
             this.label13.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(6, 85);
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label13.Location = new System.Drawing.Point(0, 111);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(194, 13);
             this.label13.TabIndex = 2;
@@ -218,7 +277,7 @@
             // 
             this.label10.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(21, 44);
+            this.label10.Location = new System.Drawing.Point(7, 41);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(61, 13);
             this.label10.TabIndex = 2;
@@ -258,6 +317,7 @@
             this.wantMore.TabStop = true;
             this.wantMore.Text = "Хочу набрать вес";
             this.wantMore.UseVisualStyleBackColor = true;
+            this.wantMore.CheckedChanged += new System.EventHandler(this.wantMore_CheckedChanged);
             // 
             // satisfy
             // 
@@ -269,6 +329,7 @@
             this.satisfy.TabStop = true;
             this.satisfy.Text = "Мой вес меня устраивает";
             this.satisfy.UseVisualStyleBackColor = true;
+            this.satisfy.CheckedChanged += new System.EventHandler(this.satisfy_CheckedChanged);
             // 
             // wantLess
             // 
@@ -280,6 +341,7 @@
             this.wantLess.TabStop = true;
             this.wantLess.Text = "Хочу снизить вес";
             this.wantLess.UseVisualStyleBackColor = true;
+            this.wantLess.CheckedChanged += new System.EventHandler(this.wantLess_CheckedChanged);
             // 
             // label9
             // 
@@ -377,12 +439,13 @@
             this.label5.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label5.Location = new System.Drawing.Point(44, 44);
+            this.label5.Location = new System.Drawing.Point(7, 47);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(122, 15);
+            this.label5.Size = new System.Drawing.Size(187, 15);
             this.label5.TabIndex = 1;
-            this.label5.Text = "Норма чистой воды";
+            this.label5.Text = "Рекомендованная норма воды";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // waterlabel
             // 
@@ -390,7 +453,7 @@
             this.waterlabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.waterlabel.AutoSize = true;
             this.waterlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.waterlabel.Location = new System.Drawing.Point(82, 16);
+            this.waterlabel.Location = new System.Drawing.Point(72, 16);
             this.waterlabel.Name = "waterlabel";
             this.waterlabel.Size = new System.Drawing.Size(41, 18);
             this.waterlabel.TabIndex = 0;
@@ -407,6 +470,7 @@
             this.groupBox2.Size = new System.Drawing.Size(200, 74);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
+            this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
             // 
             // label1
             // 
@@ -425,7 +489,7 @@
             this.recLimitCal.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.recLimitCal.AutoSize = true;
             this.recLimitCal.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.recLimitCal.Location = new System.Drawing.Point(72, 16);
+            this.recLimitCal.Location = new System.Drawing.Point(68, 17);
             this.recLimitCal.Name = "recLimitCal";
             this.recLimitCal.Size = new System.Drawing.Size(58, 18);
             this.recLimitCal.TabIndex = 0;
@@ -435,6 +499,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.label12);
             this.groupBox3.Controls.Add(this.indexMassText);
             this.groupBox3.Controls.Add(this.IMTlabel);
             this.groupBox3.Location = new System.Drawing.Point(442, 86);
@@ -444,15 +509,23 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Enter += new System.EventHandler(this.groupBox1_Enter_1);
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(43, 46);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(108, 13);
+            this.label12.TabIndex = 2;
+            this.label12.Text = "Индекс массы тела";
+            // 
             // indexMassText
             // 
             this.indexMassText.AutoSize = true;
             this.indexMassText.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.indexMassText.Location = new System.Drawing.Point(43, 44);
             this.indexMassText.Name = "indexMassText";
-            this.indexMassText.Size = new System.Drawing.Size(106, 15);
+            this.indexMassText.Size = new System.Drawing.Size(0, 15);
             this.indexMassText.TabIndex = 1;
-            this.indexMassText.Text = "Нормальный вес";
             this.indexMassText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // IMTlabel
@@ -529,16 +602,24 @@
             // 
             // activeBox
             // 
-            this.activeBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.activeBox.FormattingEnabled = true;
+            this.activeBox.Items.AddRange(new object[] {
+            "Нагрузка минимальная",
+            "Нагрзука средней тяжести 3 дня неделю",
+            "Трениовски средней 5 раз неделю",
+            "Интенивные нагрузки 5 раз в неделю",
+            "Нагрузки каждый день",
+            "Интенсивные нагрузки каждый день",
+            "Ежедневная физ. нагрузка и физ. работа"});
             this.activeBox.Location = new System.Drawing.Point(9, 157);
             this.activeBox.Name = "activeBox";
             this.activeBox.Size = new System.Drawing.Size(191, 21);
             this.activeBox.TabIndex = 12;
+            this.activeBox.Text = "Нагрузка минимальная";
             // 
             // sexBox
             // 
-            this.sexBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.sexBox.Cursor = System.Windows.Forms.Cursors.Hand;
             this.sexBox.ForeColor = System.Drawing.SystemColors.WindowText;
             this.sexBox.FormattingEnabled = true;
             this.sexBox.Items.AddRange(new object[] {
@@ -548,6 +629,8 @@
             this.sexBox.Name = "sexBox";
             this.sexBox.Size = new System.Drawing.Size(100, 21);
             this.sexBox.TabIndex = 11;
+            this.sexBox.Text = "Мужской";
+            this.sexBox.SelectedIndexChanged += new System.EventHandler(this.sexBox_SelectedIndexChanged);
             // 
             // massBox
             // 
@@ -572,8 +655,10 @@
             // 
             // nameBox
             // 
+            this.nameBox.ForeColor = System.Drawing.SystemColors.MenuText;
             this.nameBox.Location = new System.Drawing.Point(100, 19);
             this.nameBox.Name = "nameBox";
+            this.nameBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.nameBox.Size = new System.Drawing.Size(100, 20);
             this.nameBox.TabIndex = 6;
             this.nameBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
@@ -664,6 +749,7 @@
             this.toolStrip2.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
             this.groupBox6.ResumeLayout(false);
@@ -739,6 +825,12 @@
         private System.Windows.Forms.TextBox waist;
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.Button getResult;
+        private System.Windows.Forms.Label fat;
+        private System.Windows.Forms.Label warning;
+        private System.Windows.Forms.Label hipsLabel;
+        private System.Windows.Forms.TextBox hipsBox;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Button resultFat;
     }
 }
 
