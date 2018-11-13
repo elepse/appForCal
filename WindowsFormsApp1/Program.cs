@@ -20,18 +20,18 @@ namespace WindowsFormsApp1
             Application.Run(new fMain());
         }
     }
-    public class Person{
+    public class Person {
         [PrimaryKey, AutoIncrement, Unique]
         public int Id { get; set; }
 
         [MaxLength(255), NotNull]
-        public string Name{ get; set; }
+        public string Name { get; set; }
 
         [NotNull]
         public int sex { get; set; }
 
         [NotNull]
-        public int age{ get; set; }
+        public int age { get; set; }
 
         [NotNull]
         public int height { get; set; }
@@ -50,15 +50,16 @@ namespace WindowsFormsApp1
 
         public int waist { get; set; }
 
-        public int neck{ get; set; }
+        public int neck { get; set; }
 
         public int hips { get; set; }
 
         public override string ToString()
         {
             return string.Format(
-                "{0}: {1} {2} {3} {4} {5} {6} {7} {8} {9} {10}",
+                "id:{0} name:{1} sex:{2} age:{3} height:{4} mass:{5} activeIndex:{6} target:{7} wantDoTarget:{8} waist:{9} neck:{10} hips:{11}",
                 Id,
+                Name,
                 sex,
                 age,
                 height,
@@ -69,6 +70,40 @@ namespace WindowsFormsApp1
                 waist,
                 neck,
                 hips
+            );
+        }
+    }
+
+    public class Product
+    {
+        [PrimaryKey, AutoIncrement, Unique]
+        public int Id { get; set; }
+
+        [MaxLength(255), NotNull]
+        public string Name { get; set; }
+
+        [NotNull]
+        public int proteins { get; set; }
+
+        [NotNull]
+        public int fats { get; set; }
+
+        [NotNull]
+        public int carbohydrates { get; set; }
+
+        [NotNull]
+        public int calories { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format(
+                "id:{0} name:{1} proteins:{2} fats:{3} carbohydrates:{4} calories:{5}",
+                Id,
+                Name,
+                proteins,
+                fats,
+                carbohydrates,
+                calories
             );
         }
     }

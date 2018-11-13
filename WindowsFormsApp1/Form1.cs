@@ -14,24 +14,63 @@ namespace WindowsFormsApp1
 {
     public partial class fMain : Form
     {
-        public float heightInM,recomendWater,recomendCal;
-        public int age, height, mass,varWaist, varNeck, varHips, wantDoTarget, countPersonals;
-        public double indexMass,bmr, coefficientActive, procentFat;
+        public float recomendWater,recomendCal;
+        public int age, mass,varWaist, varNeck, varHips, wantDoTarget, countPersonals;
+        public double indexMass,bmr, coefficientActive, procentFat, heightInM, height, SR, MSJ;
         public string name;
+        public const int varWantLess = 1, varSatisfy = 2, varWantMore = 3;
+        public bool dataChanged = false;
 
         public fMain()
         {
             InitializeComponent();
             sexBox.SelectedIndex = 0;
             activeBox.SelectedIndex = 0;
+
+            //Заполнение данных из базы
             var db = new SQLiteConnection("DataBase.db");
             db.CreateTable<Person>();
             countPersonals = db.Table<Person>().Count();
+            if (countPersonals > 0)
+            {
+                var person = db.Get<Person>(1);
+                nameBox.Text = person.Name;
+                sexBox.SelectedIndex = person.sex;
+                ageBox.Text = Convert.ToString(person.age);
+                heightBox.Text = Convert.ToString(person.height);
+                massBox.Text = Convert.ToString(person.mass);
+                activeBox.SelectedIndex = person.activeIndex;
+                valueTarget.Text = Convert.ToString(person.target);
+                wantDoTarget = person.wantDoTarget;
+                if(person.waist != 0) { 
+                waist.Text = Convert.ToString(person.waist);
+                }
+                if (person.hips != 0)
+                {
+                    hipsBox.Text = Convert.ToString(person.hips);
+                }
+                if (person.neck != 0)
+                {
+                    neck.Text = Convert.ToString(person.neck);
+                }
+                if (wantDoTarget == varWantLess)
+                {
+                    wantLess.Checked = true;
+                }else if (wantDoTarget == varSatisfy) {
+                    satisfy.Checked = true;
+                }else if (wantDoTarget == varWantMore) {
+                    wantMore.Checked = true;
+                }
+                resultFat_Click(null, null);
+                getResult_Click(null, null);
+            }
+            db.Close();
+            textBox1_TextChanged_1(null, null);
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-
+            tabControl1.SelectTab(tabPage1);
         }
 
         private void toolStrip2_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -49,7 +88,60 @@ namespace WindowsFormsApp1
 
         }
 
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectTab(tabPage2);
+        }
+
+        private void textBox1_TextChanged_1(object sender, EventArgs e)
+        {
+            var dataBase = new SQLiteConnection("DataBase.db");
+            dataBase.CreateTable<Product>();
+            var products = dataBase.Table<Product>();
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Наименование");
+            dt.Columns.Add("Белки", typeof(int));
+            dt.Columns.Add("Жиры", typeof(int));
+            dt.Columns.Add("Углеводы", typeof(int));
+            dt.Columns.Add("Калл", typeof(int));
+            if (SearchProducts.Text != string.Empty)
+            {
+                products = from s in products
+                           where s.Name.StartsWith(SearchProducts.Text)
+                           select s;
+            }
+                
+            foreach (var product in products)
+            {
+                var row = dt.NewRow();
+                row["Наименование"] = product.Name;
+                row["Белки"] = product.proteins;
+                row["Жиры"] = product.fats;
+                row["Углеводы"] = product.fats;
+                row["Калл"] = product.calories;
+                dt.Rows.Add(row);
+            }
+            var dgv = dataGridView1;
+            dgv.AutoGenerateColumns = true;
+            dgv.DataSource = dt;
+            dgv.Columns["Наименование"].Width = 300;
+            dgv.Columns["Белки"].Width = 75;
+            dgv.Columns["Жиры"].Width = 75;
+            dgv.Columns["Углеводы"].Width = 75;
+            dgv.Columns["Калл"].Width = 75;
+        }
+
         private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void IMTlabel_Click(object sender, EventArgs e)
         {
 
         }
@@ -60,21 +152,29 @@ namespace WindowsFormsApp1
             {
                 valueTarget.Text = massBox.Text;
             }
-            wantDoTarget = 2;
+            wantDoTarget = varSatisfy;
         }
 
         private void wantLess_CheckedChanged(object sender, EventArgs e)
         {
-            wantDoTarget = 1;
+            wantDoTarget = varWantLess;
         }
 
         private void wantMore_CheckedChanged(object sender, EventArgs e)
         {
-            wantDoTarget = 3;
+            wantDoTarget = varWantMore;
         }
 
         private void resultFat_Click(object sender, EventArgs e)
         {
+            if(heightBox.Text != string.Empty)
+            {
+                height = Convert.ToInt32(heightBox.Text);
+            }
+            else
+            {
+                warning.Text = "Вы не ввели рост";
+            }
             if (waist.Text != string.Empty)
             {
                 varWaist = Convert.ToInt32(waist.Text);
@@ -197,12 +297,8 @@ namespace WindowsFormsApp1
 
         private void getResult_Click(object sender, EventArgs e)
         {
-            //Заполнение данных из базы
-            var db = new SQLiteConnection("DataBase.db");
-            if (countPersonals > 0)
-            {
-                var person = db.Get<Person>(0);
-            }
+            
+           
             warning.Text = "";
             //Проверка на заполнение формы
             if (massBox.Text != String.Empty)
@@ -291,10 +387,12 @@ namespace WindowsFormsApp1
             {
                 if (sexBox.SelectedIndex == 0)
                 {
+                    MSJ = 88.362 + (13.397 * mass) + (4.799 * height) - (5.677 * age);
                     bmr = ((9.99 * mass) + (6.25 * height) - (4.92 * age) + 5) * coefficientActive;
                 }
                 else
                 {
+                    MSJ = 447.593 + (9.247 * mass) + (3.098 * height) - (4.330 * age);
                     bmr = ((9.99 * mass) + (6.25 * height) - (4.92 * age) - 161) * coefficientActive;
                 }
                 colCal.Text = Math.Round(bmr) + " калл";
@@ -320,16 +418,27 @@ namespace WindowsFormsApp1
                 valueTarget.Text = massBox.Text;
             }
             recLimitCal.Text = recomendCal + " ккал";
+            // БЖУ
+            double b, j, u;
+            MSJ = MSJ * coefficientActive;
+            SR = Math.Floor(bmr + MSJ) / 2;
+            b = (SR * 0.4) / 4;
+            j = (SR * 0.2) / 9;
+            u = (SR * 0.4) / 4;
+            bBox.Text = Convert.ToString(b); 
+            jBox.Text = Convert.ToString(j); 
+            uBox.Text = Convert.ToString(u); 
             //Работа с базой данных
-            
-            if (countPersonals == 0) { 
+            var db = new SQLiteConnection("DataBase.db");
+            countPersonals = db.Table<Person>().Count();
+            if (countPersonals != 0) { 
                 var person = new Person
                 {   
                         Id = 1,
                         Name = nameBox.Text,
                         sex = sexBox.SelectedIndex,
                         age = age,
-                        height = height,
+                        height = Convert.ToInt32(height),
                         mass = mass,
                         activeIndex = activeBox.SelectedIndex,
                         target = Convert.ToInt32(valueTarget.Text),
@@ -338,7 +447,28 @@ namespace WindowsFormsApp1
                         neck = varNeck,
                         hips = varHips
                     };
+                db.Update(person);
+                db.Close();
+            }
+            else
+            {
+                var person = new Person
+                {
+                    Id = 1,
+                    Name = nameBox.Text,
+                    sex = sexBox.SelectedIndex,
+                    age = age,
+                    height = Convert.ToInt32(height),
+                    mass = mass,
+                    activeIndex = activeBox.SelectedIndex,
+                    target = Convert.ToInt32(valueTarget.Text),
+                    wantDoTarget = wantDoTarget,
+                    waist = varWaist,
+                    neck = varNeck,
+                    hips = varHips
+                };
                 db.Insert(person);
+                db.Close();
             }
         }
     }

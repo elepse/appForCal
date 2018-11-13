@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fMain));
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.warning = new System.Windows.Forms.Label();
@@ -67,7 +68,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.recLimitCal = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label12 = new System.Windows.Forms.Label();
             this.indexMassText = new System.Windows.Forms.Label();
             this.IMTlabel = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -87,6 +87,11 @@
             this.labelSex = new System.Windows.Forms.Label();
             this.labelName = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.SearchProducts = new System.Windows.Forms.TextBox();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.searchInBase = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
             this.toolStrip2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -98,6 +103,8 @@
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupPersonalData.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStripButton1
@@ -105,7 +112,7 @@
             this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(69, 20);
+            this.toolStripButton1.Size = new System.Drawing.Size(80, 20);
             this.toolStripButton1.Text = "Главная";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
@@ -113,13 +120,23 @@
             // 
             this.toolStrip2.Dock = System.Windows.Forms.DockStyle.Left;
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton1});
+            this.toolStripButton1,
+            this.toolStripButton2});
             this.toolStrip2.Location = new System.Drawing.Point(0, 0);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(72, 429);
+            this.toolStrip2.Size = new System.Drawing.Size(83, 429);
             this.toolStrip2.TabIndex = 1;
             this.toolStrip2.Text = "toolStrip2";
             this.toolStrip2.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.toolStrip2_ItemClicked);
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(80, 20);
+            this.toolStripButton2.Text = "Продукты";
+            this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
             // 
             // tabControl1
             // 
@@ -499,7 +516,6 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.label12);
             this.groupBox3.Controls.Add(this.indexMassText);
             this.groupBox3.Controls.Add(this.IMTlabel);
             this.groupBox3.Location = new System.Drawing.Point(442, 86);
@@ -509,20 +525,11 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Enter += new System.EventHandler(this.groupBox1_Enter_1);
             // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(43, 46);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(108, 13);
-            this.label12.TabIndex = 2;
-            this.label12.Text = "Индекс массы тела";
-            // 
             // indexMassText
             // 
             this.indexMassText.AutoSize = true;
             this.indexMassText.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.indexMassText.Location = new System.Drawing.Point(43, 44);
+            this.indexMassText.Location = new System.Drawing.Point(21, 44);
             this.indexMassText.Name = "indexMassText";
             this.indexMassText.Size = new System.Drawing.Size(0, 15);
             this.indexMassText.TabIndex = 1;
@@ -535,12 +542,13 @@
             this.IMTlabel.AutoEllipsis = true;
             this.IMTlabel.AutoSize = true;
             this.IMTlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.IMTlabel.Location = new System.Drawing.Point(72, 17);
+            this.IMTlabel.Location = new System.Drawing.Point(62, 16);
             this.IMTlabel.Name = "IMTlabel";
             this.IMTlabel.Size = new System.Drawing.Size(60, 18);
             this.IMTlabel.TabIndex = 0;
             this.IMTlabel.Text = "ИМТ: -";
             this.IMTlabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.IMTlabel.Click += new System.EventHandler(this.IMTlabel_Click);
             // 
             // groupBox1
             // 
@@ -661,6 +669,7 @@
             this.nameBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.nameBox.Size = new System.Drawing.Size(100, 20);
             this.nameBox.TabIndex = 6;
+            this.nameBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nameBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // label6
@@ -728,13 +737,66 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.checkBox1);
+            this.tabPage2.Controls.Add(this.SearchProducts);
+            this.tabPage2.Controls.Add(this.dataGridView1);
+            this.tabPage2.Controls.Add(this.searchInBase);
+            this.tabPage2.Controls.Add(this.label3);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(663, 397);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.Text = "Продукты";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(406, 12);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(134, 17);
+            this.checkBox1.TabIndex = 4;
+            this.checkBox1.Text = "Искать по подстроке";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // SearchProducts
+            // 
+            this.SearchProducts.Location = new System.Drawing.Point(179, 10);
+            this.SearchProducts.Name = "SearchProducts";
+            this.SearchProducts.Size = new System.Drawing.Size(220, 20);
+            this.SearchProducts.TabIndex = 3;
+            this.SearchProducts.TextChanged += new System.EventHandler(this.textBox1_TextChanged_1);
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
+            this.dataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.GridColor = System.Drawing.SystemColors.ButtonFace;
+            this.dataGridView1.Location = new System.Drawing.Point(8, 38);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(644, 251);
+            this.dataGridView1.TabIndex = 2;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            // 
+            // searchInBase
+            // 
+            this.searchInBase.Location = new System.Drawing.Point(148, 9);
+            this.searchInBase.Name = "searchInBase";
+            this.searchInBase.Size = new System.Drawing.Size(25, 21);
+            this.searchInBase.TabIndex = 1;
+            this.searchInBase.Text = "button1";
+            this.searchInBase.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 13);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(136, 13);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Поиск по базе продуктов";
             // 
             // fMain
             // 
@@ -744,7 +806,7 @@
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.toolStrip2);
             this.Name = "fMain";
-            this.Text = "Form1";
+            this.Text = "master calories";
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
             this.tabControl1.ResumeLayout(false);
@@ -766,6 +828,9 @@
             this.groupBox1.PerformLayout();
             this.groupPersonalData.ResumeLayout(false);
             this.groupPersonalData.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -829,8 +894,13 @@
         private System.Windows.Forms.Label warning;
         private System.Windows.Forms.Label hipsLabel;
         private System.Windows.Forms.TextBox hipsBox;
-        private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Button resultFat;
+        private System.Windows.Forms.Button searchInBase;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.TextBox SearchProducts;
+        private System.Windows.Forms.ToolStripButton toolStripButton2;
     }
 }
 
