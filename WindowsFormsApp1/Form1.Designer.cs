@@ -29,9 +29,14 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fMain));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.warning = new System.Windows.Forms.Label();
@@ -87,11 +92,42 @@
             this.labelSex = new System.Windows.Forms.Label();
             this.labelName = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.addNewProduct = new System.Windows.Forms.Button();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.newProductCalories = new System.Windows.Forms.TextBox();
+            this.newProductСarbohydrates = new System.Windows.Forms.TextBox();
+            this.newProductFats = new System.Windows.Forms.TextBox();
+            this.newProductProteins = new System.Windows.Forms.TextBox();
+            this.newProductMass = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.newProductName = new System.Windows.Forms.TextBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.SearchProducts = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.NameProduct = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.proteinsProduct = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fatsProduct = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.searchInBase = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.eatenDishes = new System.Windows.Forms.DataGridView();
+            this.snacks = new System.Windows.Forms.Button();
+            this.dinner = new System.Windows.Forms.Button();
+            this.lunch = new System.Windows.Forms.Button();
+            this.breakfast = new System.Windows.Forms.Button();
+            this.label19 = new System.Windows.Forms.Label();
+            this.EatThis = new System.Windows.Forms.Button();
+            this.inputSearchFood = new System.Windows.Forms.TextBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.resultSearchFoods = new System.Windows.Forms.GroupBox();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.toolStrip2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -104,15 +140,21 @@
             this.groupBox1.SuspendLayout();
             this.groupPersonalData.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.groupBox9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.eatenDishes)).BeginInit();
+            this.resultSearchFoods.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStripButton1
             // 
             this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(80, 20);
+            this.toolStripButton1.Size = new System.Drawing.Size(107, 20);
             this.toolStripButton1.Text = "Главная";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
@@ -121,10 +163,11 @@
             this.toolStrip2.Dock = System.Windows.Forms.DockStyle.Left;
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1,
-            this.toolStripButton2});
-            this.toolStrip2.Location = new System.Drawing.Point(0, 0);
+            this.toolStripButton2,
+            this.toolStripButton3});
+            this.toolStrip2.Location = new System.Drawing.Point(20, 60);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(83, 429);
+            this.toolStrip2.Size = new System.Drawing.Size(110, 396);
             this.toolStrip2.TabIndex = 1;
             this.toolStrip2.Text = "toolStrip2";
             this.toolStrip2.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.toolStrip2_ItemClicked);
@@ -132,20 +175,32 @@
             // toolStripButton2
             // 
             this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(80, 20);
+            this.toolStripButton2.Size = new System.Drawing.Size(107, 20);
             this.toolStripButton2.Text = "Продукты";
             this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
+            // 
+            // toolStripButton3
+            // 
+            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(107, 20);
+            this.toolStripButton3.Text = "Приёмы пищи";
+            this.toolStripButton3.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal;
+            this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(75, 0);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Location = new System.Drawing.Point(133, 60);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(671, 423);
+            this.tabControl1.Size = new System.Drawing.Size(653, 412);
             this.tabControl1.TabIndex = 3;
             // 
             // tabPage1
@@ -164,7 +219,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(663, 397);
+            this.tabPage1.Size = new System.Drawing.Size(645, 386);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Главная";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -176,19 +231,20 @@
             this.warning.AutoSize = true;
             this.warning.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.warning.ForeColor = System.Drawing.Color.Red;
-            this.warning.Location = new System.Drawing.Point(233, 306);
+            this.warning.Location = new System.Drawing.Point(224, 306);
             this.warning.Name = "warning";
             this.warning.Size = new System.Drawing.Size(0, 15);
             this.warning.TabIndex = 8;
             // 
             // getResult
             // 
-            this.getResult.Location = new System.Drawing.Point(227, 266);
+            this.getResult.BackColor = System.Drawing.Color.Transparent;
+            this.getResult.Location = new System.Drawing.Point(227, 268);
             this.getResult.Name = "getResult";
             this.getResult.Size = new System.Drawing.Size(200, 35);
             this.getResult.TabIndex = 7;
             this.getResult.Text = "Расчитать";
-            this.getResult.UseVisualStyleBackColor = true;
+            this.getResult.UseVisualStyleBackColor = false;
             this.getResult.Click += new System.EventHandler(this.getResult_Click);
             // 
             // groupBox8
@@ -737,6 +793,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.groupBox9);
             this.tabPage2.Controls.Add(this.checkBox1);
             this.tabPage2.Controls.Add(this.SearchProducts);
             this.tabPage2.Controls.Add(this.dataGridView1);
@@ -745,15 +802,162 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(663, 397);
+            this.tabPage2.Size = new System.Drawing.Size(645, 386);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Продукты";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.addNewProduct);
+            this.groupBox9.Controls.Add(this.label18);
+            this.groupBox9.Controls.Add(this.label17);
+            this.groupBox9.Controls.Add(this.label16);
+            this.groupBox9.Controls.Add(this.label15);
+            this.groupBox9.Controls.Add(this.label14);
+            this.groupBox9.Controls.Add(this.newProductCalories);
+            this.groupBox9.Controls.Add(this.newProductСarbohydrates);
+            this.groupBox9.Controls.Add(this.newProductFats);
+            this.groupBox9.Controls.Add(this.newProductProteins);
+            this.groupBox9.Controls.Add(this.newProductMass);
+            this.groupBox9.Controls.Add(this.label12);
+            this.groupBox9.Controls.Add(this.newProductName);
+            this.groupBox9.Location = new System.Drawing.Point(7, 315);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(644, 76);
+            this.groupBox9.TabIndex = 5;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Enter += new System.EventHandler(this.groupBox9_Enter);
+            // 
+            // addNewProduct
+            // 
+            this.addNewProduct.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.addNewProduct.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.addNewProduct.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.addNewProduct.Location = new System.Drawing.Point(540, 33);
+            this.addNewProduct.Name = "addNewProduct";
+            this.addNewProduct.Size = new System.Drawing.Size(84, 25);
+            this.addNewProduct.TabIndex = 12;
+            this.addNewProduct.Text = "Добавить";
+            this.addNewProduct.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.addNewProduct.UseVisualStyleBackColor = true;
+            this.addNewProduct.Click += new System.EventHandler(this.addNewProduct_Click);
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label18.Location = new System.Drawing.Point(460, 18);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(39, 15);
+            this.label18.TabIndex = 11;
+            this.label18.Text = "Ккал";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label17.Location = new System.Drawing.Point(382, 18);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(72, 15);
+            this.label17.TabIndex = 10;
+            this.label17.Text = "Углеводы";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label16.Location = new System.Drawing.Point(326, 18);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(45, 15);
+            this.label16.TabIndex = 9;
+            this.label16.Text = "Жиры";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label15.Location = new System.Drawing.Point(270, 18);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(47, 15);
+            this.label15.TabIndex = 8;
+            this.label15.Text = "Белки";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label14.Location = new System.Drawing.Point(211, 18);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(51, 15);
+            this.label14.TabIndex = 7;
+            this.label14.Text = "Грамм";
+            // 
+            // newProductCalories
+            // 
+            this.newProductCalories.Location = new System.Drawing.Point(463, 37);
+            this.newProductCalories.Name = "newProductCalories";
+            this.newProductCalories.Size = new System.Drawing.Size(50, 20);
+            this.newProductCalories.TabIndex = 6;
+            this.newProductCalories.TextChanged += new System.EventHandler(this.newProductCalories_TextChanged);
+            // 
+            // newProductСarbohydrates
+            // 
+            this.newProductСarbohydrates.Location = new System.Drawing.Point(382, 37);
+            this.newProductСarbohydrates.Name = "newProductСarbohydrates";
+            this.newProductСarbohydrates.Size = new System.Drawing.Size(75, 20);
+            this.newProductСarbohydrates.TabIndex = 5;
+            this.newProductСarbohydrates.TextChanged += new System.EventHandler(this.newProductСarbohydrates_TextChanged);
+            // 
+            // newProductFats
+            // 
+            this.newProductFats.Location = new System.Drawing.Point(326, 37);
+            this.newProductFats.Name = "newProductFats";
+            this.newProductFats.Size = new System.Drawing.Size(50, 20);
+            this.newProductFats.TabIndex = 4;
+            this.newProductFats.TextChanged += new System.EventHandler(this.newProductFats_TextChanged);
+            // 
+            // newProductProteins
+            // 
+            this.newProductProteins.Location = new System.Drawing.Point(270, 37);
+            this.newProductProteins.Name = "newProductProteins";
+            this.newProductProteins.Size = new System.Drawing.Size(50, 20);
+            this.newProductProteins.TabIndex = 3;
+            this.newProductProteins.TextChanged += new System.EventHandler(this.newProductProteins_TextChanged);
+            // 
+            // newProductMass
+            // 
+            this.newProductMass.BackColor = System.Drawing.Color.Gainsboro;
+            this.newProductMass.Location = new System.Drawing.Point(214, 37);
+            this.newProductMass.Name = "newProductMass";
+            this.newProductMass.Size = new System.Drawing.Size(50, 20);
+            this.newProductMass.TabIndex = 2;
+            this.newProductMass.Text = "100";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label12.Location = new System.Drawing.Point(6, 16);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(154, 15);
+            this.label12.TabIndex = 1;
+            this.label12.Text = "Добавить новый продукт";
+            // 
+            // newProductName
+            // 
+            this.newProductName.Location = new System.Drawing.Point(7, 36);
+            this.newProductName.Name = "newProductName";
+            this.newProductName.Size = new System.Drawing.Size(197, 20);
+            this.newProductName.TabIndex = 0;
+            this.newProductName.TextChanged += new System.EventHandler(this.newProductName_TextChanged);
+            // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(406, 12);
+            this.checkBox1.Checked = true;
+            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox1.Location = new System.Drawing.Point(415, 12);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(134, 17);
             this.checkBox1.TabIndex = 4;
@@ -762,7 +966,7 @@
             // 
             // SearchProducts
             // 
-            this.SearchProducts.Location = new System.Drawing.Point(179, 10);
+            this.SearchProducts.Location = new System.Drawing.Point(189, 9);
             this.SearchProducts.Name = "SearchProducts";
             this.SearchProducts.Size = new System.Drawing.Size(220, 20);
             this.SearchProducts.TabIndex = 3;
@@ -772,41 +976,234 @@
             // 
             this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
             this.dataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.NameProduct,
+            this.proteinsProduct,
+            this.fatsProduct});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.GridColor = System.Drawing.SystemColors.ButtonFace;
             this.dataGridView1.Location = new System.Drawing.Point(8, 38);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(644, 251);
+            this.dataGridView1.Size = new System.Drawing.Size(637, 271);
             this.dataGridView1.TabIndex = 2;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
+            // NameProduct
+            // 
+            this.NameProduct.HeaderText = "Наименование";
+            this.NameProduct.Name = "NameProduct";
+            // 
+            // proteinsProduct
+            // 
+            this.proteinsProduct.HeaderText = "Белки";
+            this.proteinsProduct.Name = "proteinsProduct";
+            // 
+            // fatsProduct
+            // 
+            this.fatsProduct.HeaderText = "Жиры";
+            this.fatsProduct.Name = "fatsProduct";
+            // 
             // searchInBase
             // 
-            this.searchInBase.Location = new System.Drawing.Point(148, 9);
+            this.searchInBase.Location = new System.Drawing.Point(158, 9);
             this.searchInBase.Name = "searchInBase";
             this.searchInBase.Size = new System.Drawing.Size(25, 21);
             this.searchInBase.TabIndex = 1;
-            this.searchInBase.Text = "button1";
             this.searchInBase.UseVisualStyleBackColor = true;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 13);
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label3.Location = new System.Drawing.Point(4, 12);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(136, 13);
+            this.label3.Size = new System.Drawing.Size(152, 15);
             this.label3.TabIndex = 0;
             this.label3.Text = "Поиск по базе продуктов";
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.eatenDishes);
+            this.tabPage3.Controls.Add(this.snacks);
+            this.tabPage3.Controls.Add(this.dinner);
+            this.tabPage3.Controls.Add(this.lunch);
+            this.tabPage3.Controls.Add(this.breakfast);
+            this.tabPage3.Controls.Add(this.label19);
+            this.tabPage3.Controls.Add(this.EatThis);
+            this.tabPage3.Controls.Add(this.inputSearchFood);
+            this.tabPage3.Controls.Add(this.button2);
+            this.tabPage3.Controls.Add(this.button1);
+            this.tabPage3.Controls.Add(this.dateTimePicker1);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(645, 386);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Приёмы пищи";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            this.tabPage3.Click += new System.EventHandler(this.tabPage3_Click);
+            // 
+            // eatenDishes
+            // 
+            this.eatenDishes.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.eatenDishes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.eatenDishes.Location = new System.Drawing.Point(7, 129);
+            this.eatenDishes.Name = "eatenDishes";
+            this.eatenDishes.Size = new System.Drawing.Size(628, 244);
+            this.eatenDishes.TabIndex = 7;
+            // 
+            // snacks
+            // 
+            this.snacks.Location = new System.Drawing.Point(298, 86);
+            this.snacks.Name = "snacks";
+            this.snacks.Size = new System.Drawing.Size(75, 23);
+            this.snacks.TabIndex = 6;
+            this.snacks.Text = "Перекусы";
+            this.snacks.UseVisualStyleBackColor = true;
+            // 
+            // dinner
+            // 
+            this.dinner.Location = new System.Drawing.Point(208, 86);
+            this.dinner.Name = "dinner";
+            this.dinner.Size = new System.Drawing.Size(75, 23);
+            this.dinner.TabIndex = 6;
+            this.dinner.Text = "Ужин";
+            this.dinner.UseVisualStyleBackColor = true;
+            // 
+            // lunch
+            // 
+            this.lunch.Location = new System.Drawing.Point(115, 87);
+            this.lunch.Name = "lunch";
+            this.lunch.Size = new System.Drawing.Size(75, 23);
+            this.lunch.TabIndex = 6;
+            this.lunch.Text = "Обед";
+            this.lunch.UseVisualStyleBackColor = true;
+            // 
+            // breakfast
+            // 
+            this.breakfast.Location = new System.Drawing.Point(18, 86);
+            this.breakfast.Name = "breakfast";
+            this.breakfast.Size = new System.Drawing.Size(75, 23);
+            this.breakfast.TabIndex = 6;
+            this.breakfast.Text = "Завтрак";
+            this.breakfast.UseVisualStyleBackColor = true;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(15, 39);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(149, 13);
+            this.label19.TabIndex = 5;
+            this.label19.Text = "Введите название продукта";
+            // 
+            // EatThis
+            // 
+            this.EatThis.Location = new System.Drawing.Point(258, 52);
+            this.EatThis.Name = "EatThis";
+            this.EatThis.Size = new System.Drawing.Size(112, 25);
+            this.EatThis.TabIndex = 4;
+            this.EatThis.Text = "Съесть";
+            this.EatThis.UseVisualStyleBackColor = true;
+            this.EatThis.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // inputSearchFood
+            // 
+            this.inputSearchFood.Location = new System.Drawing.Point(18, 55);
+            this.inputSearchFood.Name = "inputSearchFood";
+            this.inputSearchFood.Size = new System.Drawing.Size(234, 20);
+            this.inputSearchFood.TabIndex = 2;
+            this.inputSearchFood.Click += new System.EventHandler(this.showSearchFoods);
+            this.inputSearchFood.TextChanged += new System.EventHandler(this.showSearchFoods);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(218, 6);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(21, 19);
+            this.button2.TabIndex = 1;
+            this.button2.Text = "<";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(396, 6);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(22, 20);
+            this.button1.TabIndex = 1;
+            this.button1.Text = ">";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Location = new System.Drawing.Point(245, 6);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(145, 20);
+            this.dateTimePicker1.TabIndex = 0;
+            this.dateTimePicker1.Value = new System.DateTime(2018, 11, 20, 0, 0, 0, 0);
+            // 
+            // resultSearchFoods
+            // 
+            this.resultSearchFoods.Controls.Add(this.dataGridView2);
+            this.resultSearchFoods.Location = new System.Drawing.Point(704, 12);
+            this.resultSearchFoods.Name = "resultSearchFoods";
+            this.resultSearchFoods.Size = new System.Drawing.Size(633, 182);
+            this.resultSearchFoods.TabIndex = 10;
+            this.resultSearchFoods.TabStop = false;
+            this.resultSearchFoods.Visible = false;
+            // 
+            // dataGridView2
+            // 
+            this.dataGridView2.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView2.DefaultCellStyle = dataGridViewCellStyle4;
+            this.dataGridView2.Location = new System.Drawing.Point(6, 9);
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.Size = new System.Drawing.Size(621, 167);
+            this.dataGridView2.TabIndex = 0;
+            this.dataGridView2.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.takeDish);
             // 
             // fMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(751, 429);
+            this.ClientSize = new System.Drawing.Size(788, 476);
+            this.Controls.Add(this.resultSearchFoods);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.toolStrip2);
             this.Name = "fMain";
-            this.Text = "master calories";
+            this.Text = "Мастер каллорий";
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
             this.tabControl1.ResumeLayout(false);
@@ -830,7 +1227,14 @@
             this.groupPersonalData.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox9.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.eatenDishes)).EndInit();
+            this.resultSearchFoods.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -901,6 +1305,38 @@
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.TextBox SearchProducts;
         private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.Button addNewProduct;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox newProductCalories;
+        private System.Windows.Forms.TextBox newProductСarbohydrates;
+        private System.Windows.Forms.TextBox newProductFats;
+        private System.Windows.Forms.TextBox newProductProteins;
+        public System.Windows.Forms.TextBox newProductMass;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox newProductName;
+        private System.Windows.Forms.ToolStripButton toolStripButton3;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Button EatThis;
+        private System.Windows.Forms.TextBox inputSearchFood;
+        private System.Windows.Forms.GroupBox resultSearchFoods;
+        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridView eatenDishes;
+        private System.Windows.Forms.Button snacks;
+        private System.Windows.Forms.Button dinner;
+        private System.Windows.Forms.Button lunch;
+        private System.Windows.Forms.Button breakfast;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NameProduct;
+        private System.Windows.Forms.DataGridViewTextBoxColumn proteinsProduct;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fatsProduct;
     }
 }
 

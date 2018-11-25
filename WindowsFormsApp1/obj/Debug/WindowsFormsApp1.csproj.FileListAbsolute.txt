@@ -16,3 +16,6 @@ I:\KURSACH\appForCal\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.CopyComp
 I:\KURSACH\appForCal\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csprojAssemblyReference.cache
 I:\KURSACH\appForCal\WindowsFormsApp1\bin\Debug\x86\sqlite3.dll
 I:\KURSACH\appForCal\WindowsFormsApp1\bin\Debug\x64\sqlite3.dll
+I:\KURSACH\appForCal\WindowsFormsApp1\bin\Debug\MetroFramework.Design.dll
+I:\KURSACH\appForCal\WindowsFormsApp1\bin\Debug\MetroFramework.dll
+I:\KURSACH\appForCal\WindowsFormsApp1\bin\Debug\MetroFramework.Fonts.dll

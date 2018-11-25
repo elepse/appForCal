@@ -8,11 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SQLite;
+using MetroFramework.Components;
+using MetroFramework.Forms;
 
 
 namespace WindowsFormsApp1
 {
-    public partial class fMain : Form
+    public partial class fMain : MetroForm
     {
         public float recomendWater,recomendCal;
         public int age, mass,varWaist, varNeck, varHips, wantDoTarget, countPersonals;
@@ -21,8 +23,10 @@ namespace WindowsFormsApp1
         public const int varWantLess = 1, varSatisfy = 2, varWantMore = 3;
         public bool dataChanged = false;
 
+        DataTable dtEatenDish = new DataTable();
         public fMain()
         {
+            //начало программы
             InitializeComponent();
             sexBox.SelectedIndex = 0;
             activeBox.SelectedIndex = 0;
@@ -66,6 +70,74 @@ namespace WindowsFormsApp1
             }
             db.Close();
             textBox1_TextChanged_1(null, null);
+
+            //Генерация таблицы съеденого
+            dtEatenDish.Columns.Add("Наименование");
+            dtEatenDish.Columns.Add("Белки", typeof(int));
+            dtEatenDish.Columns.Add("Жиры", typeof(int));
+            dtEatenDish.Columns.Add("Углеводы", typeof(int));
+            dtEatenDish.Columns.Add("Калл", typeof(int));
+
+            var dgvEatenDish = eatenDishes;
+            dgvEatenDish.AutoGenerateColumns = true;
+            dgvEatenDish.DataSource = dtEatenDish; // добавление колонки в таблицу
+            dgvEatenDish.Columns["Наименование"].Width = 300;
+            dgvEatenDish.Columns["Белки"].Width = 70;
+            dgvEatenDish.Columns["Жиры"].Width = 70;
+            dgvEatenDish.Columns["Углеводы"].Width = 70;
+            dgvEatenDish.Columns["Калл"].Width = 70;
+        }
+
+        private void showSearchFoods(object sender, EventArgs e)
+        {
+            resultSearchFoods.Visible = true;
+           
+            var dataBase = new SQLiteConnection("DataBase.db");
+            dataBase.CreateTable<Product>();
+            var products = dataBase.Table<Product>();
+            DataTable dt = new DataTable();
+            //создание колонок
+            dt.Columns.Add("Наименование");
+            dt.Columns.Add("Белки", typeof(int));
+            dt.Columns.Add("Жиры", typeof(int));
+            dt.Columns.Add("Углеводы", typeof(int));
+            dt.Columns.Add("Калл", typeof(int));
+            //Поиск продуктов, проверка на пустую строку
+            if (inputSearchFood.Text != string.Empty)
+            {
+                products = from s in products
+                           where s.Name.StartsWith(SearchProducts.Text)
+                           select s;
+            }else
+            {
+                
+            }
+            // работаем с кажой строкой массива
+            foreach (var product in products)
+            {
+                var row = dt.NewRow();
+                //заполнение колонок
+                row["Наименование"] = product.Name;
+                row["Белки"] = product.proteins;
+                row["Жиры"] = product.fats;
+                row["Углеводы"] = product.fats;
+                row["Калл"] = product.calories;
+                dt.Rows.Add(row);
+            }
+            var dgv = dataGridView2;
+            dgv.AutoGenerateColumns = true;
+            dgv.DataSource = dt; // добавление колонки в таблицу
+            dgv.Columns["Наименование"].Width = 300;
+            dgv.Columns["Белки"].Width = 75;
+            dgv.Columns["Жиры"].Width = 75;
+            dgv.Columns["Углеводы"].Width = 75;
+            dgv.Columns["Калл"].Width = 75;
+            dataBase.Close();
+        }
+
+        private void hideSearchFoods(object sender, EventArgs e)
+        {
+            resultSearchFoods.Visible = false;
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
@@ -90,7 +162,7 @@ namespace WindowsFormsApp1
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+         
         }
 
         private void toolStripButton2_Click(object sender, EventArgs e)
@@ -104,31 +176,34 @@ namespace WindowsFormsApp1
             dataBase.CreateTable<Product>();
             var products = dataBase.Table<Product>();
             DataTable dt = new DataTable();
+            //создание колонок
             dt.Columns.Add("Наименование");
             dt.Columns.Add("Белки", typeof(int));
             dt.Columns.Add("Жиры", typeof(int));
             dt.Columns.Add("Углеводы", typeof(int));
             dt.Columns.Add("Калл", typeof(int));
+            //Поиск продуктов, проверка на пустую строку
             if (SearchProducts.Text != string.Empty)
             {
                 products = from s in products
                            where s.Name.StartsWith(SearchProducts.Text)
                            select s;
             }
-                
+               // работаем с кажой строкой массива
             foreach (var product in products)
             {
                 var row = dt.NewRow();
+                //заполнение колонок
                 row["Наименование"] = product.Name;
                 row["Белки"] = product.proteins;
                 row["Жиры"] = product.fats;
-                row["Углеводы"] = product.fats;
+                row["Углеводы"] = product.carbohydrates;
                 row["Калл"] = product.calories;
                 dt.Rows.Add(row);
             }
             var dgv = dataGridView1;
             dgv.AutoGenerateColumns = true;
-            dgv.DataSource = dt;
+            dgv.DataSource = dt; // добавление колонки в таблицу
             dgv.Columns["Наименование"].Width = 300;
             dgv.Columns["Белки"].Width = 75;
             dgv.Columns["Жиры"].Width = 75;
@@ -136,9 +211,127 @@ namespace WindowsFormsApp1
             dgv.Columns["Калл"].Width = 75;
         }
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
+        private void groupBox9_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        private void newProductName_TextChanged(object sender, EventArgs e)
+        {
+            newProductCalories_TextChanged(null, null);
+        }
+
+        private void newProductProteins_TextChanged(object sender, EventArgs e)
+        {
+            newProductCalories_TextChanged(null, null);
+        }
+
+        private void newProductFats_TextChanged(object sender, EventArgs e)
+        {
+            newProductCalories_TextChanged(null, null);
+        }
+
+        private void newProductСarbohydrates_TextChanged(object sender, EventArgs e)
+        {
+            newProductCalories_TextChanged(null, null);
+        }
+
+        private void newProductCalories_TextChanged(object sender, EventArgs e)
+        {
+            if(newProductProteins.Text != string.Empty && newProductFats.Text != string.Empty && newProductСarbohydrates.Text != string.Empty)
+            {
+                int calories = (Convert.ToInt32(newProductProteins.Text) * 4) + (Convert.ToInt32(newProductFats.Text) * 8) + (Convert.ToInt32(newProductСarbohydrates.Text) * 4);
+                newProductCalories.Text = Convert.ToString(calories);
+            }
+        }
+
+        private void addNewProduct_Click(object sender, EventArgs e)
+        {
+            //Создание нового продукта
+            if (newProductName.Text != string.Empty && newProductProteins.Text != string.Empty && newProductFats.Text != string.Empty && newProductСarbohydrates.Text != string.Empty && newProductCalories.Text != string.Empty)
+            {
+                var db = new SQLiteConnection("DataBase.db");
+                var product = new Product
+                {
+                    Id = 1,
+                    Name = newProductName.Text,
+                    proteins = Convert.ToInt32(newProductProteins.Text),
+                    fats = Convert.ToInt32(newProductFats.Text),
+                    carbohydrates = Convert.ToInt32(newProductСarbohydrates.Text),
+                    calories = Convert.ToInt32(newProductCalories.Text)
+                };
+                db.Insert(product);
+                db.Close();
+                textBox1_TextChanged_1(null, null);
+            }
+        }
+
+        private void tabPage3_Click(object sender, EventArgs e)
+        {
+            hideSearchFoods(null, null);
+        }
+
+        private void inputSearchFood_Click(object sender, EventArgs e)
+        {
+            resultSearchFoods.Visible = true;
+        }
+
+        //private void takeDish(object sender, EventArgs e)
+        //{
+        //    if(dataGridView2.SelectedCells.Count > 0)
+        //    {
+        //        var row = dataGridView2.SelectedCells[0].RowIndex;
+        //        DataGridViewRow selectedRow = dataGridView2.Rows[row];
+        //        string values = Convert.ToString(selectedRow.Cells["Наименование"].Value);
+        //    }
+            
+        //}
+
+        private void takeDish(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dataGridView2.SelectedCells.Count > 0)
+            {
+                var row = dataGridView2.SelectedCells[0].RowIndex;
+                DataGridViewRow selectedRow = dataGridView2.Rows[row];
+                string value = Convert.ToString(selectedRow.Cells["Наименование"].Value);
+                inputSearchFood.Text = value;
+                resultSearchFoods.Visible = false;
+            }
+        }
+
+        private void toolStripButton3_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectTab(tabPage3);
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            var dataBase = new SQLiteConnection("DataBase.db");
+            dataBase.CreateTable<Product>();
+            
+            var products = dataBase.Table<Product>();
+
+            products = from s in products
+                       where s.Name.Equals(inputSearchFood.Text)
+                       select s;
+
+            foreach (var product in products)
+            {
+                var row = dtEatenDish.NewRow();
+                row["Наименование"] = product.Name;
+                row["Белки"] = product.proteins;
+                row["Жиры"] = product.fats;
+                row["Углеводы"] = product.carbohydrates;
+                row["Калл"] = product.calories;
+                dtEatenDish.Rows.Add(row);
+            }
+            dataBase.Close();
+            inputSearchFood.Text = string.Empty;
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            
         }
 
         private void IMTlabel_Click(object sender, EventArgs e)
@@ -425,13 +618,14 @@ namespace WindowsFormsApp1
             b = (SR * 0.4) / 4;
             j = (SR * 0.2) / 9;
             u = (SR * 0.4) / 4;
-            bBox.Text = Convert.ToString(b); 
-            jBox.Text = Convert.ToString(j); 
-            uBox.Text = Convert.ToString(u); 
+            bBox.Text = Convert.ToString(Math.Round(b)); 
+            jBox.Text = Convert.ToString(Math.Round(j)); 
+            uBox.Text = Convert.ToString(Math.Round(u)); 
             //Работа с базой данных
-            var db = new SQLiteConnection("DataBase.db");
-            countPersonals = db.Table<Person>().Count();
-            if (countPersonals != 0) { 
+            var db = new SQLiteConnection("DataBase.db"); // подключение
+            countPersonals = db.Table<Person>().Count(); // сколько строк в таблице в базе
+            if (countPersonals != 0) {  
+                // Обновляю данные
                 var person = new Person
                 {   
                         Id = 1,
@@ -452,6 +646,7 @@ namespace WindowsFormsApp1
             }
             else
             {
+                // сохраняю пользователя
                 var person = new Person
                 {
                     Id = 1,

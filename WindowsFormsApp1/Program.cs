@@ -76,6 +76,7 @@ namespace WindowsFormsApp1
 
     public class Product
     {
+        //Колонки
         [PrimaryKey, AutoIncrement, Unique]
         public int Id { get; set; }
 
