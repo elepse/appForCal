@@ -19,6 +19,7 @@ namespace WindowsFormsApp1
         public float recomendWater,recomendCal;
         public int age, mass,varWaist, varNeck, varHips, wantDoTarget, countPersonals;
         public double indexMass,bmr, coefficientActive, procentFat, heightInM, height, SR, MSJ;
+        double recomendProteins, recomendFats, recomendCarbohydrates; // Белки Жиры Углеводы
         public string name;
         public const int varWantLess = 1, varSatisfy = 2, varWantMore = 3;
         public bool dataChanged = false;
@@ -90,49 +91,9 @@ namespace WindowsFormsApp1
 
         private void showSearchFoods(object sender, EventArgs e)
         {
+            ChageRequestSearchFoods(null, null);
             resultSearchFoods.Visible = true;
-           
-            var dataBase = new SQLiteConnection("DataBase.db");
-            dataBase.CreateTable<Product>();
-            var products = dataBase.Table<Product>();
-            DataTable dt = new DataTable();
-            //создание колонок
-            dt.Columns.Add("Наименование");
-            dt.Columns.Add("Белки", typeof(int));
-            dt.Columns.Add("Жиры", typeof(int));
-            dt.Columns.Add("Углеводы", typeof(int));
-            dt.Columns.Add("Калл", typeof(int));
-            //Поиск продуктов, проверка на пустую строку
-            if (inputSearchFood.Text != string.Empty)
-            {
-                products = from s in products
-                           where s.Name.StartsWith(SearchProducts.Text)
-                           select s;
-            }else
-            {
-                
-            }
-            // работаем с кажой строкой массива
-            foreach (var product in products)
-            {
-                var row = dt.NewRow();
-                //заполнение колонок
-                row["Наименование"] = product.Name;
-                row["Белки"] = product.proteins;
-                row["Жиры"] = product.fats;
-                row["Углеводы"] = product.fats;
-                row["Калл"] = product.calories;
-                dt.Rows.Add(row);
-            }
-            var dgv = dataGridView2;
-            dgv.AutoGenerateColumns = true;
-            dgv.DataSource = dt; // добавление колонки в таблицу
-            dgv.Columns["Наименование"].Width = 300;
-            dgv.Columns["Белки"].Width = 75;
-            dgv.Columns["Жиры"].Width = 75;
-            dgv.Columns["Углеводы"].Width = 75;
-            dgv.Columns["Калл"].Width = 75;
-            dataBase.Close();
+            resultSearchFoods.BringToFront();
         }
 
         private void hideSearchFoods(object sender, EventArgs e)
@@ -276,17 +237,6 @@ namespace WindowsFormsApp1
             resultSearchFoods.Visible = true;
         }
 
-        //private void takeDish(object sender, EventArgs e)
-        //{
-        //    if(dataGridView2.SelectedCells.Count > 0)
-        //    {
-        //        var row = dataGridView2.SelectedCells[0].RowIndex;
-        //        DataGridViewRow selectedRow = dataGridView2.Rows[row];
-        //        string values = Convert.ToString(selectedRow.Cells["Наименование"].Value);
-        //    }
-            
-        //}
-
         private void takeDish(object sender, DataGridViewCellEventArgs e)
         {
             if (dataGridView2.SelectedCells.Count > 0)
@@ -302,6 +252,7 @@ namespace WindowsFormsApp1
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
             tabControl1.SelectTab(tabPage3);
+            getSumNutritionalValue(null, null);
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -327,11 +278,169 @@ namespace WindowsFormsApp1
             }
             dataBase.Close();
             inputSearchFood.Text = string.Empty;
+            getSumNutritionalValue(null, null);
         }
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
+        private void getSumNutritionalValue(object sender, DataGridViewRowsAddedEventArgs e)
         {
+            //получаем пищевую ценность
+            int proteins = 0, fats = 0, callories = 0, carbohydrates = 0;
+            for (int i = 0; i < eatenDishes.RowCount - 1; i++)
+            {
+                proteins += Convert.ToInt32(eatenDishes[1, i].Value);
+            }
+            for (int i = 0; i < eatenDishes.RowCount - 1; i++)
+            {
+                fats += Convert.ToInt32(eatenDishes[2, i].Value);
+            }
+            for (int i = 0; i < eatenDishes.RowCount - 1; i++)
+            {
+                callories += Convert.ToInt32(eatenDishes[3, i].Value);
+            }
+            for (int i = 0; i < eatenDishes.RowCount - 1; i++)
+            {
+                carbohydrates += Convert.ToInt32(eatenDishes[4, i].Value);
+            }
             
+            // Заполняем наши дневные цели
+            string normProteinsString = proteins.ToString() + " / " + Math.Round(recomendProteins),
+            normFatsString = fats.ToString() + " / " + Math.Round(recomendFats),
+            normCarbohydratesString = carbohydrates.ToString() + " / " + Math.Round(recomendCarbohydrates),
+            normCalsString = callories.ToString() + " / " + recomendCal;
+            // Закрашиваем на основе колличества
+            if (proteins >= recomendProteins)
+            {
+                normProteins.Refresh();
+                normProteins.CreateGraphics().FillRectangle(Brushes.Orange, normProteins.ClientRectangle);
+                Graphics g = Graphics.FromHwnd(normProteins.Handle);
+                StringFormat sf = new StringFormat();
+                sf.Alignment = StringAlignment.Center;
+                sf.LineAlignment = StringAlignment.Center;
+                g.DrawString(normProteinsString, new Font("Microsoft Sans Serif", 9), Brushes.Black, normProteins.ClientRectangle, sf);
+            }
+            else
+            {
+                normProteins.Refresh();
+                double procentProteins = recomendProteins / 100;
+                procentProteins = Math.Round(proteins / procentProteins);
+                normProteins.CreateGraphics().FillRectangle(Brushes.Orange, new Rectangle(0, 0, Convert.ToInt32(procentProteins), normProteins.ClientRectangle.Height));
+                Graphics g = Graphics.FromHwnd(normProteins.Handle);
+                StringFormat sf = new StringFormat();
+                sf.Alignment = StringAlignment.Center;
+                sf.LineAlignment = StringAlignment.Center;
+                g.DrawString(normProteinsString, new Font("Microsoft Sans Serif", 9), Brushes.Black, normProteins.ClientRectangle,sf);
+            }
+            //Каллории
+            if (callories >= recomendCal)
+            {
+                normCals.Refresh();
+                normCals.CreateGraphics().FillRectangle(Brushes.Green, normCals.ClientRectangle);
+                Graphics g = Graphics.FromHwnd(normCals.Handle);
+                StringFormat sf = new StringFormat();
+                sf.Alignment = StringAlignment.Center;
+                sf.LineAlignment = StringAlignment.Center;
+                g.DrawString(normCalsString, new Font("Microsoft Sans Serif", 9), Brushes.Black, normCals.ClientRectangle, sf);
+            }
+            else
+            {
+                normCals.Refresh();
+                double procentCals = recomendCal / 100;
+                procentCals = Math.Round(callories / procentCals);
+                normCals.CreateGraphics().FillRectangle(Brushes.Green, new Rectangle(0, 0, Convert.ToInt32(procentCals), normCals.ClientRectangle.Height));
+                Graphics g = Graphics.FromHwnd(normCals.Handle);
+                StringFormat sf = new StringFormat();
+                sf.Alignment = StringAlignment.Center;
+                sf.LineAlignment = StringAlignment.Center;
+                g.DrawString(normCalsString, new Font("Microsoft Sans Serif", 9), Brushes.Black, normCals.ClientRectangle, sf);
+            }
+            //Жиры
+            if (fats >= recomendFats)
+            {
+                normFats.Refresh();
+                normFats.CreateGraphics().FillRectangle(Brushes.Yellow, normFats.ClientRectangle);
+                Graphics g = Graphics.FromHwnd(normFats.Handle);
+                StringFormat sf = new StringFormat();
+                sf.Alignment = StringAlignment.Center;
+                sf.LineAlignment = StringAlignment.Center;
+                g.DrawString(normFatsString, new Font("Microsoft Sans Serif", 9), Brushes.Black, normFats.ClientRectangle, sf);
+            }
+            else
+            {
+                normFats.Refresh();
+                double procentFats = recomendFats / 100;
+                procentFats = Math.Round(fats / procentFats);
+                normFats.CreateGraphics().FillRectangle(Brushes.Yellow, new Rectangle(0, 0, Convert.ToInt32(procentFats), normFats.ClientRectangle.Height));
+                Graphics g = Graphics.FromHwnd(normFats.Handle);
+                StringFormat sf = new StringFormat();
+                sf.Alignment = StringAlignment.Center;
+                sf.LineAlignment = StringAlignment.Center;
+                g.DrawString(normFatsString, new Font("Microsoft Sans Serif", 9), Brushes.Black, normFats.ClientRectangle, sf);
+            }
+            //Углеводы
+            if (carbohydrates >= recomendCarbohydrates)
+            {
+                normCarbohydrates.Refresh();
+                normCarbohydrates.CreateGraphics().FillRectangle(Brushes.OrangeRed, normCarbohydrates.ClientRectangle);
+                Graphics g = Graphics.FromHwnd(normCarbohydrates.Handle);
+                StringFormat sf = new StringFormat();
+                sf.Alignment = StringAlignment.Center;
+                sf.LineAlignment = StringAlignment.Center;
+                g.DrawString(normCarbohydratesString, new Font("Microsoft Sans Serif", 9), Brushes.Black, normCarbohydrates.ClientRectangle, sf);
+            }
+            else
+            {
+                normCarbohydrates.Refresh();
+                double procentCarbohydrates = recomendCarbohydrates / 100;
+                procentCarbohydrates = Math.Round(fats / procentCarbohydrates);
+                normCarbohydrates.CreateGraphics().FillRectangle(Brushes.OrangeRed, new Rectangle(0, 0, Convert.ToInt32(procentCarbohydrates), normCarbohydrates.ClientRectangle.Height));
+                Graphics g = Graphics.FromHwnd(normCarbohydrates.Handle);
+                StringFormat sf = new StringFormat();
+                sf.Alignment = StringAlignment.Center;
+                sf.LineAlignment = StringAlignment.Center;
+                g.DrawString(normCarbohydratesString, new Font("Microsoft Sans Serif", 9), Brushes.Black, normCarbohydrates.ClientRectangle, sf);
+            }
+        }
+
+        private void ChageRequestSearchFoods(object sender, EventArgs e)
+        {
+            var dataBase = new SQLiteConnection("DataBase.db");
+            dataBase.CreateTable<Product>();
+            var products = dataBase.Table<Product>();
+            DataTable dtResultFoods = new DataTable();
+            //создание колонок
+            dtResultFoods.Columns.Add("Наименование");
+            dtResultFoods.Columns.Add("Белки", typeof(int));
+            dtResultFoods.Columns.Add("Жиры", typeof(int));
+            dtResultFoods.Columns.Add("Углеводы", typeof(int));
+            dtResultFoods.Columns.Add("Калл", typeof(int));
+            //Поиск продуктов, проверка на пустую строку
+            if (inputSearchFood.Text != string.Empty)
+            {
+                products = from s in products
+                           where s.Name.StartsWith(inputSearchFood.Text)
+                           select s;
+            }
+                // работаем с кажой строкой массива
+                foreach (var product in products)
+                {
+                    var row = dtResultFoods.NewRow();
+                    //заполнение колонок
+                    row["Наименование"] = product.Name;
+                    row["Белки"] = product.proteins;
+                    row["Жиры"] = product.fats;
+                    row["Углеводы"] = product.fats;
+                    row["Калл"] = product.calories;
+                    dtResultFoods.Rows.Add(row);
+                }
+            var dgv = dataGridView2;
+            dgv.AutoGenerateColumns = true;
+            dgv.DataSource = dtResultFoods; // добавление колонки в таблицу
+            dgv.Columns["Наименование"].Width = 300;
+            dgv.Columns["Белки"].Width = 75;
+            dgv.Columns["Жиры"].Width = 75;
+            dgv.Columns["Углеводы"].Width = 75;
+            dgv.Columns["Калл"].Width = 75;
+            dataBase.Close();
         }
 
         private void IMTlabel_Click(object sender, EventArgs e)
@@ -612,15 +721,14 @@ namespace WindowsFormsApp1
             }
             recLimitCal.Text = recomendCal + " ккал";
             // БЖУ
-            double b, j, u;
             MSJ = MSJ * coefficientActive;
             SR = Math.Floor(bmr + MSJ) / 2;
-            b = (SR * 0.4) / 4;
-            j = (SR * 0.2) / 9;
-            u = (SR * 0.4) / 4;
-            bBox.Text = Convert.ToString(Math.Round(b)); 
-            jBox.Text = Convert.ToString(Math.Round(j)); 
-            uBox.Text = Convert.ToString(Math.Round(u)); 
+            recomendProteins = (SR * 0.4) / 4;
+            recomendFats = (SR * 0.2) / 9;
+            recomendCarbohydrates = (SR * 0.4) / 4;
+            bBox.Text = Convert.ToString(Math.Round(recomendProteins)); 
+            jBox.Text = Convert.ToString(Math.Round(recomendFats)); 
+            uBox.Text = Convert.ToString(Math.Round(recomendCarbohydrates)); 
             //Работа с базой данных
             var db = new SQLiteConnection("DataBase.db"); // подключение
             countPersonals = db.Table<Person>().Count(); // сколько строк в таблице в базе
