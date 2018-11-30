@@ -1138,10 +1138,12 @@
             // 
             this.eatenDishes.BackgroundColor = System.Drawing.SystemColors.Control;
             this.eatenDishes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.eatenDishes.Cursor = System.Windows.Forms.Cursors.Default;
             this.eatenDishes.Location = new System.Drawing.Point(7, 129);
             this.eatenDishes.Name = "eatenDishes";
             this.eatenDishes.Size = new System.Drawing.Size(628, 244);
             this.eatenDishes.TabIndex = 7;
+            this.eatenDishes.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.deleteDish);
             // 
             // label19
             // 

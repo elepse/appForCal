@@ -72,21 +72,28 @@ namespace WindowsFormsApp1
             db.Close();
             textBox1_TextChanged_1(null, null);
 
-            //Генерация таблицы съеденого
+            // Генерация таблицы съеденого
             dtEatenDish.Columns.Add("Наименование");
             dtEatenDish.Columns.Add("Белки", typeof(int));
             dtEatenDish.Columns.Add("Жиры", typeof(int));
             dtEatenDish.Columns.Add("Углеводы", typeof(int));
             dtEatenDish.Columns.Add("Калл", typeof(int));
+            // колонка с картинкой
+            DataColumn imageColumn = new DataColumn("Удаление"); // Create the column.
+            imageColumn.DataType = System.Type.GetType("System.Byte[]"); // Type byte[] to store image bytes.
+            imageColumn.AllowDBNull = true;
+            imageColumn.Caption = "Удаление";
+            dtEatenDish.Columns.Add(imageColumn);
 
             var dgvEatenDish = eatenDishes;
             dgvEatenDish.AutoGenerateColumns = true;
             dgvEatenDish.DataSource = dtEatenDish; // добавление колонки в таблицу
-            dgvEatenDish.Columns["Наименование"].Width = 300;
-            dgvEatenDish.Columns["Белки"].Width = 70;
-            dgvEatenDish.Columns["Жиры"].Width = 70;
-            dgvEatenDish.Columns["Углеводы"].Width = 70;
-            dgvEatenDish.Columns["Калл"].Width = 70;
+            dgvEatenDish.Columns["Наименование"].Width = 280;
+            dgvEatenDish.Columns["Белки"].Width = 60;
+            dgvEatenDish.Columns["Жиры"].Width = 60;
+            dgvEatenDish.Columns["Углеводы"].Width = 60;
+            dgvEatenDish.Columns["Калл"].Width = 60;
+            dgvEatenDish.Columns["Удаление"].Width = 60;
         }
 
         private void showSearchFoods(object sender, EventArgs e)
@@ -255,6 +262,18 @@ namespace WindowsFormsApp1
             getSumNutritionalValue(null, null);
         }
 
+        // Удаление строки в съеденных блюдах
+        private void deleteDish(object sender, DataGridViewCellEventArgs e) 
+        {
+            // Находим заголовок ячейки по которой кликнули
+            var checkDelete = eatenDishes.Columns[eatenDishes.CurrentCell.ColumnIndex].HeaderText.ToString();
+            if(checkDelete == "Удаление") // Если клик был по иконки удаление, удаляем строку
+            {
+                var deleteRow = eatenDishes.Columns[eatenDishes.CurrentCell.RowIndex];
+                eatenDishes.Rows.RemoveAt(Convert.ToInt32(deleteRow.Index));
+            }
+        }
+
         private void button4_Click(object sender, EventArgs e)
         {
             var dataBase = new SQLiteConnection("DataBase.db");
@@ -274,6 +293,13 @@ namespace WindowsFormsApp1
                 row["Жиры"] = product.fats;
                 row["Углеводы"] = product.carbohydrates;
                 row["Калл"] = product.calories;
+                // картинка
+                Image image = Image.FromFile("delete.png");
+                System.IO.MemoryStream memoryStream = new System.IO.MemoryStream();
+                image.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
+                byte[] b = memoryStream.ToArray();
+                row["Удаление"] = b;
+
                 dtEatenDish.Rows.Add(row);
             }
             dataBase.Close();
@@ -391,7 +417,7 @@ namespace WindowsFormsApp1
             {
                 normCarbohydrates.Refresh();
                 double procentCarbohydrates = recomendCarbohydrates / 100;
-                procentCarbohydrates = Math.Round(fats / procentCarbohydrates);
+                procentCarbohydrates = Math.Round(carbohydrates / procentCarbohydrates);
                 normCarbohydrates.CreateGraphics().FillRectangle(Brushes.OrangeRed, new Rectangle(0, 0, Convert.ToInt32(procentCarbohydrates), normCarbohydrates.ClientRectangle.Height));
                 Graphics g = Graphics.FromHwnd(normCarbohydrates.Handle);
                 StringFormat sf = new StringFormat();
@@ -413,6 +439,7 @@ namespace WindowsFormsApp1
             dtResultFoods.Columns.Add("Жиры", typeof(int));
             dtResultFoods.Columns.Add("Углеводы", typeof(int));
             dtResultFoods.Columns.Add("Калл", typeof(int));
+            
             //Поиск продуктов, проверка на пустую строку
             if (inputSearchFood.Text != string.Empty)
             {
@@ -431,11 +458,11 @@ namespace WindowsFormsApp1
                     row["Углеводы"] = product.fats;
                     row["Калл"] = product.calories;
                     dtResultFoods.Rows.Add(row);
-                }
+            }
             var dgv = dataGridView2;
             dgv.AutoGenerateColumns = true;
             dgv.DataSource = dtResultFoods; // добавление колонки в таблицу
-            dgv.Columns["Наименование"].Width = 300;
+            dgv.Columns["Наименование"].Width = 250;
             dgv.Columns["Белки"].Width = 75;
             dgv.Columns["Жиры"].Width = 75;
             dgv.Columns["Углеводы"].Width = 75;
