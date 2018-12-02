@@ -23,6 +23,8 @@ namespace WindowsFormsApp1
         public string name;
         public const int varWantLess = 1, varSatisfy = 2, varWantMore = 3;
         public bool dataChanged = false;
+        //переменные для таблицы съеденного
+        int proteins = 0, fats = 0, callories = 0, carbohydrates = 0;
 
         DataTable dtEatenDish = new DataTable();
         public fMain()
@@ -74,10 +76,10 @@ namespace WindowsFormsApp1
 
             // Генерация таблицы съеденого
             dtEatenDish.Columns.Add("Наименование");
-            dtEatenDish.Columns.Add("Белки", typeof(int));
-            dtEatenDish.Columns.Add("Жиры", typeof(int));
-            dtEatenDish.Columns.Add("Углеводы", typeof(int));
-            dtEatenDish.Columns.Add("Калл", typeof(int));
+            dtEatenDish.Columns.Add("Белки", typeof(double));
+            dtEatenDish.Columns.Add("Жиры", typeof(double));
+            dtEatenDish.Columns.Add("Углеводы", typeof(double));
+            dtEatenDish.Columns.Add("Калл", typeof(double));
             // колонка с картинкой
             DataColumn imageColumn = new DataColumn("Удаление"); // Create the column.
             imageColumn.DataType = System.Type.GetType("System.Byte[]"); // Type byte[] to store image bytes.
@@ -94,6 +96,8 @@ namespace WindowsFormsApp1
             dgvEatenDish.Columns["Углеводы"].Width = 60;
             dgvEatenDish.Columns["Калл"].Width = 60;
             dgvEatenDish.Columns["Удаление"].Width = 60;
+
+            getHistory();// получаем историю питания
         }
 
         private void showSearchFoods(object sender, EventArgs e)
@@ -111,6 +115,7 @@ namespace WindowsFormsApp1
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
             tabControl1.SelectTab(tabPage1);
+            getHistory();
         }
 
         private void toolStrip2_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -138,6 +143,7 @@ namespace WindowsFormsApp1
             tabControl1.SelectTab(tabPage2);
         }
 
+        // поиск на второй вкладке продуктов
         private void textBox1_TextChanged_1(object sender, EventArgs e)
         {
             var dataBase = new SQLiteConnection("DataBase.db");
@@ -146,10 +152,10 @@ namespace WindowsFormsApp1
             DataTable dt = new DataTable();
             //создание колонок
             dt.Columns.Add("Наименование");
-            dt.Columns.Add("Белки", typeof(int));
-            dt.Columns.Add("Жиры", typeof(int));
-            dt.Columns.Add("Углеводы", typeof(int));
-            dt.Columns.Add("Калл", typeof(int));
+            dt.Columns.Add("Белки", typeof(double));
+            dt.Columns.Add("Жиры", typeof(double));
+            dt.Columns.Add("Углеводы", typeof(double));
+            dt.Columns.Add("Калл", typeof(double));
             //Поиск продуктов, проверка на пустую строку
             if (SearchProducts.Text != string.Empty)
             {
@@ -208,7 +214,7 @@ namespace WindowsFormsApp1
         {
             if(newProductProteins.Text != string.Empty && newProductFats.Text != string.Empty && newProductСarbohydrates.Text != string.Empty)
             {
-                int calories = (Convert.ToInt32(newProductProteins.Text) * 4) + (Convert.ToInt32(newProductFats.Text) * 8) + (Convert.ToInt32(newProductСarbohydrates.Text) * 4);
+                double calories = (Convert.ToDouble(newProductProteins.Text) * 4) + (Convert.ToDouble(newProductFats.Text) * 8) + (Convert.ToDouble(newProductСarbohydrates.Text) * 4);
                 newProductCalories.Text = Convert.ToString(calories);
             }
         }
@@ -223,14 +229,19 @@ namespace WindowsFormsApp1
                 {
                     Id = 1,
                     Name = newProductName.Text,
-                    proteins = Convert.ToInt32(newProductProteins.Text),
-                    fats = Convert.ToInt32(newProductFats.Text),
-                    carbohydrates = Convert.ToInt32(newProductСarbohydrates.Text),
-                    calories = Convert.ToInt32(newProductCalories.Text)
+                    proteins = Convert.ToDouble(newProductProteins.Text),
+                    fats = Convert.ToDouble(newProductFats.Text),
+                    carbohydrates = Convert.ToDouble(newProductСarbohydrates.Text),
+                    calories = Convert.ToDouble(newProductCalories.Text)
                 };
                 db.Insert(product);
                 db.Close();
                 textBox1_TextChanged_1(null, null);
+                newProductName.Text = string.Empty;
+                newProductProteins.Text = string.Empty;
+                newProductFats.Text = string.Empty;
+                newProductСarbohydrates.Text = string.Empty;
+                newProductCalories.Text = string.Empty;
             }
         }
 
@@ -244,8 +255,46 @@ namespace WindowsFormsApp1
             resultSearchFoods.Visible = true;
         }
 
+        private void getHistory() //для получения истории питания
+        {
+
+            var dataBase = new SQLiteConnection("DataBase.db");
+            dataBase.CreateTable<Days>();
+            var days = dataBase.Table<Days>();
+            DataTable dt = new DataTable();
+            //создание колонок
+            dt.Columns.Add("День");
+            dt.Columns.Add("Белки", typeof(double));
+            dt.Columns.Add("Жиры", typeof(double));
+            dt.Columns.Add("Углеводы", typeof(double));
+            dt.Columns.Add("Калл", typeof(double));
+            //Поиск продуктов, проверка на пустую строку
+           
+            // работаем с кажой строкой массива
+            foreach (var day in days)
+            {
+                var row = dt.NewRow();
+                //заполнение колонок
+                row["День"] = day.date;
+                row["Белки"] = day.proteins;
+                row["Жиры"] = day.fats;
+                row["Углеводы"] = day.carbohydrates;
+                row["Калл"] = day.calories;
+                dt.Rows.Add(row);
+            }
+            var dgv = history;
+            dgv.AutoGenerateColumns = true;
+            dgv.DataSource = dt; // добавление колонки в таблицу
+            dgv.Columns["День"].Width = 150;
+            dgv.Columns["Белки"].Width = 100;
+            dgv.Columns["Жиры"].Width = 100;
+            dgv.Columns["Углеводы"].Width = 100;
+            dgv.Columns["Калл"].Width = 100;
+        }
+
         private void takeDish(object sender, DataGridViewCellEventArgs e)
         {
+            // блюдо по которому нажали, его название перемещается в строку и ожидает нажатие кнопки "Съесть"
             if (dataGridView2.SelectedCells.Count > 0)
             {
                 var row = dataGridView2.SelectedCells[0].RowIndex;
@@ -256,8 +305,20 @@ namespace WindowsFormsApp1
             }
         }
 
+        private void eatenDishes_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            hideSearchFoods(null, null);
+        }
+
+        private void clearEatenDishs_Click(object sender, EventArgs e)
+        {
+            dtEatenDish.Clear();
+            getSumNutritionalValue(null, null);
+        }
+
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
+            //переход на 3 страницу
             tabControl1.SelectTab(tabPage3);
             getSumNutritionalValue(null, null);
         }
@@ -269,18 +330,67 @@ namespace WindowsFormsApp1
             var checkDelete = eatenDishes.Columns[eatenDishes.CurrentCell.ColumnIndex].HeaderText.ToString();
             if(checkDelete == "Удаление") // Если клик был по иконки удаление, удаляем строку
             {
-                var deleteRow = eatenDishes.Columns[eatenDishes.CurrentCell.RowIndex];
+                var deleteRow = eatenDishes.Rows[eatenDishes.CurrentCell.RowIndex];
+                if(deleteRow.Index < eatenDishes.Rows.Count - 1) // проверяем, на индекс, чтобы всё не крашнулось к чертям
+                { 
                 eatenDishes.Rows.RemoveAt(Convert.ToInt32(deleteRow.Index));
+                }
             }
         }
 
+        //сохраняем данные по съеденному в базу
+        private void SaveDay_Click(object sender, EventArgs e)
+        {
+            var date = dateTimePicker1.Value.ToShortDateString(); // берём дату
+            var database = new SQLiteConnection("DataBase.db");
+            database.CreateTable<Days>();
+            var days = database.Table<Days>();
+
+            //проверяем есть ли такой день
+            var day = (from h in days
+                       where h.date.Equals(date)
+                       select h).FirstOrDefault();
+            //проверяем существует ли такая дата, если нет - создаём новую дату в таблице
+           if(day == null)
+            {
+                var newDay = new Days
+                {
+                    date = date,
+                    proteins = proteins,
+                    fats = fats,
+                    carbohydrates = carbohydrates,
+                    calories = callories
+                };
+                database.Insert(newDay);
+               
+            }
+            else
+            {
+                // если такая дата уже есть в таблице мы обновляем значение
+                var updateDay = new Days 
+                {
+                    Id = day.Id,
+                    date = date,
+                    proteins = proteins,
+                    fats = fats,
+                    carbohydrates = carbohydrates,
+                    calories = callories
+                };
+                database.Update(updateDay);
+            }
+            database.Close();
+            getHistory();
+        }
+        
+
+        //кнопка "съесть"
         private void button4_Click(object sender, EventArgs e)
         {
+            double portion = Convert.ToDouble(portionTextBox.Text);
             var dataBase = new SQLiteConnection("DataBase.db");
             dataBase.CreateTable<Product>();
-            
             var products = dataBase.Table<Product>();
-
+            // находим продукт название которого равно нашему запросу
             products = from s in products
                        where s.Name.Equals(inputSearchFood.Text)
                        select s;
@@ -289,11 +399,11 @@ namespace WindowsFormsApp1
             {
                 var row = dtEatenDish.NewRow();
                 row["Наименование"] = product.Name;
-                row["Белки"] = product.proteins;
-                row["Жиры"] = product.fats;
-                row["Углеводы"] = product.carbohydrates;
-                row["Калл"] = product.calories;
-                // картинка
+                row["Белки"] = product.proteins / 100 * (portion);
+                row["Жиры"] = product.fats / 100 * (portion);
+                row["Углеводы"] = product.carbohydrates / 100 * (portion);
+                row["Калл"] = product.calories / 100 * (portion);
+                // вставляем картинку, сложно - недумать
                 Image image = Image.FromFile("delete.png");
                 System.IO.MemoryStream memoryStream = new System.IO.MemoryStream();
                 image.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
@@ -310,7 +420,11 @@ namespace WindowsFormsApp1
         private void getSumNutritionalValue(object sender, DataGridViewRowsAddedEventArgs e)
         {
             //получаем пищевую ценность
-            int proteins = 0, fats = 0, callories = 0, carbohydrates = 0;
+            proteins = 0;
+            fats = 0;
+            callories = 0;
+            carbohydrates = 0;
+            //каждый из этих циклов складывает весь столбец, чтобы получить сумму
             for (int i = 0; i < eatenDishes.RowCount - 1; i++)
             {
                 proteins += Convert.ToInt32(eatenDishes[1, i].Value);
@@ -321,11 +435,11 @@ namespace WindowsFormsApp1
             }
             for (int i = 0; i < eatenDishes.RowCount - 1; i++)
             {
-                callories += Convert.ToInt32(eatenDishes[3, i].Value);
+                callories += Convert.ToInt32(eatenDishes[4, i].Value);
             }
             for (int i = 0; i < eatenDishes.RowCount - 1; i++)
             {
-                carbohydrates += Convert.ToInt32(eatenDishes[4, i].Value);
+                carbohydrates += Convert.ToInt32(eatenDishes[3, i].Value);
             }
             
             // Заполняем наши дневные цели
@@ -346,14 +460,19 @@ namespace WindowsFormsApp1
             }
             else
             {
+                // Белка
                 normProteins.Refresh();
-                double procentProteins = recomendProteins / 100;
-                procentProteins = Math.Round(proteins / procentProteins);
+                double procentProteins = recomendProteins / 100; // получаем 1 %
+                procentProteins = Math.Round(proteins / procentProteins); // делим полученное нами значение сложением циклом на этот процент и получаем значение
+                //закрашиваем на основе процента нашу цель
                 normProteins.CreateGraphics().FillRectangle(Brushes.Orange, new Rectangle(0, 0, Convert.ToInt32(procentProteins), normProteins.ClientRectangle.Height));
+                // рисуем в ней текст
                 Graphics g = Graphics.FromHwnd(normProteins.Handle);
+                // назначем формат строке
                 StringFormat sf = new StringFormat();
                 sf.Alignment = StringAlignment.Center;
                 sf.LineAlignment = StringAlignment.Center;
+                // заполняем строку)
                 g.DrawString(normProteinsString, new Font("Microsoft Sans Serif", 9), Brushes.Black, normProteins.ClientRectangle,sf);
             }
             //Каллории
@@ -427,6 +546,7 @@ namespace WindowsFormsApp1
             }
         }
 
+       // Поиск блюда по меню для 3 вкладки
         private void ChageRequestSearchFoods(object sender, EventArgs e)
         {
             var dataBase = new SQLiteConnection("DataBase.db");
@@ -435,10 +555,10 @@ namespace WindowsFormsApp1
             DataTable dtResultFoods = new DataTable();
             //создание колонок
             dtResultFoods.Columns.Add("Наименование");
-            dtResultFoods.Columns.Add("Белки", typeof(int));
-            dtResultFoods.Columns.Add("Жиры", typeof(int));
-            dtResultFoods.Columns.Add("Углеводы", typeof(int));
-            dtResultFoods.Columns.Add("Калл", typeof(int));
+            dtResultFoods.Columns.Add("Белки", typeof(double));
+            dtResultFoods.Columns.Add("Жиры", typeof(double));
+            dtResultFoods.Columns.Add("Углеводы", typeof(double));
+            dtResultFoods.Columns.Add("Калл", typeof(double));
             
             //Поиск продуктов, проверка на пустую строку
             if (inputSearchFood.Text != string.Empty)

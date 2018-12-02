@@ -84,16 +84,16 @@ namespace WindowsFormsApp1
         public string Name { get; set; }
 
         [NotNull]
-        public int proteins { get; set; }
+        public double proteins { get; set; }
 
         [NotNull]
-        public int fats { get; set; }
+        public double fats { get; set; }
 
         [NotNull]
-        public int carbohydrates { get; set; }
+        public double carbohydrates { get; set; }
 
         [NotNull]
-        public int calories { get; set; }
+        public double calories { get; set; }
 
         public override string ToString()
         {
@@ -101,6 +101,41 @@ namespace WindowsFormsApp1
                 "id:{0} name:{1} proteins:{2} fats:{3} carbohydrates:{4} calories:{5}",
                 Id,
                 Name,
+                proteins,
+                fats,
+                carbohydrates,
+                calories
+            );
+        }
+    }
+
+    public class Days
+    {
+        //Колонки
+        [PrimaryKey, AutoIncrement, Unique]
+        public int Id { get; set; }
+
+        [MaxLength(255), NotNull, Unique]
+        public String date { get; set; }
+
+        [NotNull]
+        public double proteins { get; set; }
+
+        [NotNull]
+        public double fats { get; set; }
+
+        [NotNull]
+        public double carbohydrates { get; set; }
+
+        [NotNull]
+        public double calories { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format(
+                "id:{0} date:{1} proteins:{2} fats:{3} carbohydrates:{4} calories:{5}",
+                Id,
+                date,
                 proteins,
                 fats,
                 carbohydrates,
